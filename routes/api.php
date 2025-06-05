@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AttachmentController;
+use App\Http\Controllers\EmailController;
 use App\Http\Controllers\SalerController;
 use App\Http\Controllers\TagController;
 use Illuminate\Http\Request;
@@ -23,4 +25,12 @@ Route::prefix('/tags')->group(function () {
     Route::post('/show/{tag}', [TagController::class, 'show']);
     Route::post('/update/{tag}', [TagController::class, 'update']);
     Route::post('/destroy/{tag}', [TagController::class, 'destroy']);
+});
+
+Route::prefix('/emails')->group(function () {
+    Route::post('/', [EmailController::class, 'index']);
+});
+
+Route::prefix('/email-attachments')->group(function () {
+    Route::get('/{attachment}', [AttachmentController::class, 'show']);
 });
