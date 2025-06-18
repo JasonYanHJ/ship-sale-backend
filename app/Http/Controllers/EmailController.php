@@ -9,7 +9,10 @@ class EmailController extends Controller
 {
     public function index()
     {
-        $emails = Email::with('attachments')->latest('date_sent')->get();
+        $emails = Email::with('attachments')
+            ->with('forwards')
+            ->latest('date_sent')
+            ->get();
 
         return response()->json([
             'data' => $emails,

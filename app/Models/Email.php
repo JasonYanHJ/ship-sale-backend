@@ -21,6 +21,11 @@ class Email extends Model
         return $this->hasMany(Attachment::class);
     }
 
+    public function forwards()
+    {
+        return $this->hasMany(EmailForward::class)->latest('forwarded_at');
+    }
+
     public function newQuery()
     {
         // 不获取'raw_headers'字段
