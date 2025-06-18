@@ -32,5 +32,6 @@ Route::prefix('/emails')->group(function () {
 });
 
 Route::prefix('/email-attachments')->group(function () {
+    Route::get('/cids/{cid}', [AttachmentController::class, 'showByCid']);
     Route::get('/{attachment}', [AttachmentController::class, 'show']);
 });
