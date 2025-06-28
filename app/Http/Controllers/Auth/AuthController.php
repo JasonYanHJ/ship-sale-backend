@@ -24,6 +24,9 @@ class AuthController extends Controller
             'password' => Hash::make($validated['password']),
         ]);
 
+        // 注册的用户默认为“分发员”角色
+        $user->assignRole('dispatcher');
+
         $token = $user->createToken('api-token')->plainTextToken;
 
         return response()->json([
