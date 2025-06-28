@@ -29,7 +29,7 @@ class AuthController extends Controller
         return response()->json([
             'message' => '注册成功',
             'data' => [
-                'user' => $user,
+                'user' => $user->load('roles'),
                 'token' => $token,
                 'token_type' => 'Bearer'
             ],
@@ -56,7 +56,7 @@ class AuthController extends Controller
         return response()->json([
             'message' => '登录成功',
             'data' => [
-                'user' => $user,
+                'user' => $user->load('roles'),
                 'token' => $token,
                 'token_type' => 'Bearer'
             ],
@@ -85,7 +85,7 @@ class AuthController extends Controller
     {
         return response()->json([
             'data' => [
-                'user' => $request->user()
+                'user' => $request->user()->load('roles'),
             ],
         ]);
     }
