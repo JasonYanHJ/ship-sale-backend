@@ -45,6 +45,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('/email-rules')->middleware('role:admin')->group(function () {
         Route::post('/', [EmailRuleController::class, 'index']);
     });
+
+    Route::prefix('/email-rules')->middleware('role:admin')->group(function () {
+        Route::post('/', [EmailRuleController::class, 'index']);
+    });
 });
 
 // TODO: 解决附件查看的权限保护
