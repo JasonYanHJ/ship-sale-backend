@@ -6,6 +6,7 @@ use App\Http\Controllers\EmailController;
 use App\Http\Controllers\EmailRuleController;
 use App\Http\Controllers\SalerController;
 use App\Http\Controllers\TagController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('auth')->group(function () {
@@ -20,6 +21,10 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/logout', [AuthController::class, 'logout']);
         Route::post('/logout-all', [AuthController::class, 'logoutAll']);
         Route::post('/refresh-token', [AuthController::class, 'refreshToken']);
+    });
+
+    Route::prefix('/users')->group(function () {
+        Route::post('/dispatchers', [UserController::class, 'allDispatchers'])->middleware('role:admin');
     });
 
     Route::prefix('/salers')->middleware('role:admin,dispatcher')->group(function () {
@@ -38,8 +43,10 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/destroy/{tag}', [TagController::class, 'destroy']);
     });
 
-    Route::prefix('/emails')->middleware('role:admin,dispatcher')->group(function () {
-        Route::post('/', [EmailController::class, 'index']);
+    Route::prefix('/emails')->group(function () {
+        Route::post('/', [EmailController::class, 'index'])->middleware('role:admin');
+        Route::post('/by-dispatcher', [EmailController::class, 'indexByDispatcher'])->middleware('role:dispatcher');
+        Route::post('/{email}/dispatch', [EmailController::class, 'dispatchEmail'])->middleware('role:admin');
     });
 
     Route::prefix('/email-rules')->middleware('role:admin')->group(function () {

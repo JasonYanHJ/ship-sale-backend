@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Email;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class EmailController extends Controller
 {
@@ -13,26 +14,43 @@ class EmailController extends Controller
             ->with('forwards')
             ->latest('date_sent');
 
-        // 根据发信日期筛选
-        if ($request->filled('date_sent')) {
-            $query->whereBetween('date_sent', [$request->date_sent . ' 00:00:00', $request->date_sent . ' 23:59:59']);
+        // 根据是否被分配筛选
+        if ($request->filled('dispatched')) {
+            if ($request->dispatched)
+                $query->whereNot('dispatcher_id', null);
+            else
+                $query->where('dispatcher_id', null);
         }
 
-        // 根据询价标记筛选
-        if ($request->has('rfq')) {
-            $query->where('rfq', $request->rfq);
-        }
-
-        // 根据具体询价类型标记筛选
-        if ($request->has('rfq_type')) {
-            $query->where('rfq_type', $request->rfq_type);
-        }
-
-        // 数据分页
-        $emails = $query->paginate($request->pageSize ?? 10, ['*'], 'current');
+        $emails = Email::getPaginatedEmailsByRequestParams($request, $query);
 
         return response()->json([
             'data' => $emails,
+        ]);
+    }
+
+    public function indexByDispatcher(Request $request)
+    {
+        $query = Email::with('attachments')
+            ->with('forwards')
+            ->latest('date_sent');
+
+        $query->where('dispatcher_id', Auth::id());
+
+        $emails = Email::getPaginatedEmailsByRequestParams($request, $query);
+
+        return response()->json([
+            'data' => $emails,
+        ]);
+    }
+
+    public function dispatchEmail(Request $request, Email $email)
+    {
+        $email->dispatcher_id = $request->dispatcher_id;
+        $email->save();
+
+        return response()->json([
+            'message' => '分配成功',
         ]);
     }
 }

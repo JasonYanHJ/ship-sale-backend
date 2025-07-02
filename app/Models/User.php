@@ -53,6 +53,13 @@ class User extends Authenticatable
         return $this->belongsToMany(Role::class, 'user_roles');
     }
 
+    public function scopeWithRole($query, $roleName)
+    {
+        return $query->whereHas('roles', function ($q) use ($roleName) {
+            $q->where('name', $roleName);
+        });
+    }
+
     // 检查用户是否有指定角色
     public function hasRole(string $role): bool
     {
