@@ -43,6 +43,9 @@ class Email extends Model
             'date_received',
             'created_at',
             'updated_at',
+            'rfq',
+            'rfq_type',
+            'dispatcher_id',
         ]);
     }
 }

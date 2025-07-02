@@ -18,6 +18,16 @@ class EmailController extends Controller
             $query->whereBetween('date_sent', [$request->date_sent . ' 00:00:00', $request->date_sent . ' 23:59:59']);
         }
 
+        // 根据询价标记筛选
+        if ($request->has('rfq')) {
+            $query->where('rfq', $request->rfq);
+        }
+
+        // 根据具体询价类型标记筛选
+        if ($request->has('rfq_type')) {
+            $query->where('rfq_type', $request->rfq_type);
+        }
+
         // 数据分页
         $emails = $query->paginate($request->pageSize ?? 10, ['*'], 'current');
 
