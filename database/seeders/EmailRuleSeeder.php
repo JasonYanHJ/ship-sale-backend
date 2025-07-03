@@ -201,7 +201,7 @@ class EmailRuleSeeder extends Seeder
             "field_type" => "subject",
             "operator" => "contains",
             "match_value" => "request for quote",
-            "case_sensitive" => 1,
+            "case_sensitive" => 0,
             "condition_order" => 1,
         ]);
     }
