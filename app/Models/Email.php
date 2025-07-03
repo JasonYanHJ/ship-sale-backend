@@ -15,6 +15,11 @@ class Email extends Model
             $query->where('subject', 'like', '%' . $request->subject . '%');
         }
 
+        // 根据发件人筛选
+        if ($request->filled('sender')) {
+            $query->where('sender', 'like', '%' . $request->sender . '%');
+        }
+
         // 根据发信日期筛选
         if ($request->filled('date_sent')) {
             $query->whereBetween('date_sent', [$request->date_sent . ' 00:00:00', $request->date_sent . ' 23:59:59']);
