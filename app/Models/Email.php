@@ -10,6 +10,11 @@ class Email extends Model
 {
     static public function getPaginatedEmailsByRequestParams(Request $request, Builder $query)
     {
+        // 根据主题筛选
+        if ($request->filled('subject')) {
+            $query->where('subject', 'like', '%' . $request->subject . '%');
+        }
+
         // 根据发信日期筛选
         if ($request->filled('date_sent')) {
             $query->whereBetween('date_sent', [$request->date_sent . ' 00:00:00', $request->date_sent . ' 23:59:59']);
