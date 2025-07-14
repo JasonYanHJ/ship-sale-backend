@@ -44,4 +44,9 @@ class Saler extends Model
 
         return $this;
     }
+
+    public function leader()
+    {
+        return $this->belongsTo(Saler::class, 'leader_id');
+    }
 }

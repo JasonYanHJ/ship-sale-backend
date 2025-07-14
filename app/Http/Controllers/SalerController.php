@@ -12,7 +12,7 @@ class SalerController extends Controller
      */
     public function index()
     {
-        $salers = Saler::with('tags')->get();
+        $salers = Saler::with('tags')->with('leader')->get();
 
         return response()->json([
             'data' => $salers,
