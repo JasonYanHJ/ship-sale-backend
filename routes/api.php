@@ -61,5 +61,6 @@ Route::middleware('auth:sanctum')->group(function () {
 // TODO: 解决附件查看的权限保护
 Route::prefix('/email-attachments')->group(function () {
     Route::get('/cids/{cid}', [AttachmentController::class, 'showByCid']);
+    Route::post('/sync-tags/{attachment}', [AttachmentController::class, 'syncTags']);
     Route::get('/{attachment}', [AttachmentController::class, 'show']);
 });

@@ -10,7 +10,7 @@ class EmailController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Email::with('attachments')
+        $query = Email::with('attachments.tags')
             ->with('forwards')
             ->latest('date_sent');
 
@@ -31,7 +31,7 @@ class EmailController extends Controller
 
     public function indexByDispatcher(Request $request)
     {
-        $query = Email::with('attachments')
+        $query = Email::with('attachments.tags')
             ->with('forwards')
             ->latest('date_sent');
 

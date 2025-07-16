@@ -27,4 +27,19 @@ class AttachmentController extends Controller
             'Content-Disposition' => 'inline; filename="' . $attachment->original_filename . '"'
         ]);
     }
+
+    public function syncTags(Request $request, Attachment $attachment)
+    {
+        $validated = $request->validate([
+            'tag_names' => 'array',
+            'tag_names.*' => 'string|max:255',
+        ]);
+
+        $attachment->syncTags($validated['tag_names']);
+
+        return response()->json([
+            'message' => '标签设置成功',
+            'data' => $attachment,
+        ]);
+    }
 }
