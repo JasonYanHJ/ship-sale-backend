@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Attachment extends Model
 {
+    protected $casts = [
+        'extra' => 'json'
+    ];
+
     public function tags()
     {
         return $this->belongsToMany(Tag::class);
