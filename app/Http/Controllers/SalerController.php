@@ -67,13 +67,14 @@ class SalerController extends Controller
         $validated = $request->validate([
             'name' => 'sometimes|string|max:255',
             'email' => 'sometimes|string|email|max:255|unique:salers,email,' . $saler->id,
+            'leader_id' => 'sometimes|nullable|numeric:strict|integer|exists:salers,id',
             'description' => 'sometimes|nullable|string',
             'tag_names' => 'sometimes|nullable|array',
             'tag_names.*' => 'string|max:255',
         ]);
 
         // 只更新请求中提供的字段
-        $saler->update($request->only(['name', 'email', 'description']));
+        $saler->update($request->only(['name', 'email', 'leader_id', 'description']));
 
         // 处理标签
         if (isset($validated['tag_names'])) {

@@ -13,6 +13,7 @@ class Saler extends Model
         'name',
         'email',
         'description',
+        'leader_id',
     ];
 
     /**
