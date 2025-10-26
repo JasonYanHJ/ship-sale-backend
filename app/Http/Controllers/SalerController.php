@@ -30,12 +30,14 @@ class SalerController extends Controller
             'description' => 'nullable|string',
             'tag_names' => 'nullable|array',
             'tag_names.*' => 'string|max:255',
+            'abbr' => 'nullable|string',
         ]);
 
         $saler = Saler::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
             'description' => $validated['description'] ?? null,
+            'abbr' => $validated['abbr'] ?? null,
         ]);
 
         // 处理标签
@@ -71,10 +73,11 @@ class SalerController extends Controller
             'description' => 'sometimes|nullable|string',
             'tag_names' => 'sometimes|nullable|array',
             'tag_names.*' => 'string|max:255',
+            'abbr' => 'sometimes|nullable|string',
         ]);
 
         // 只更新请求中提供的字段
-        $saler->update($request->only(['name', 'email', 'leader_id', 'description']));
+        $saler->update($request->only(['name', 'email', 'leader_id', 'description', 'abbr']));
 
         // 处理标签
         if (isset($validated['tag_names'])) {
