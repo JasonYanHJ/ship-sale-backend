@@ -31,8 +31,8 @@ class Email extends Model
         }
 
         // 根据来源系统筛选
-        if ($request->has('from')) {
-            $query->where('from', $request->from);
+        if ($request->has('from_system')) {
+            $query->where('from_system', $request->from_system);
         }
 
         // 数据分页
@@ -77,7 +77,7 @@ class Email extends Model
             'created_at',
             'updated_at',
             'type',
-            'from',
+            'from_system',
             'dispatcher_id',
         ]);
     }
