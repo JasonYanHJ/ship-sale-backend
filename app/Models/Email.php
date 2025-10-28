@@ -25,14 +25,14 @@ class Email extends Model
             $query->whereBetween('date_sent', [$request->date_sent . ' 00:00:00', $request->date_sent . ' 23:59:59']);
         }
 
-        // 根据询价标记筛选
-        if ($request->has('rfq')) {
-            $query->where('rfq', $request->rfq);
+        // 根据类型筛选
+        if ($request->has('type')) {
+            $query->where('type', $request->type);
         }
 
-        // 根据具体询价类型标记筛选
-        if ($request->has('rfq_type')) {
-            $query->where('rfq_type', $request->rfq_type);
+        // 根据来源系统筛选
+        if ($request->has('from')) {
+            $query->where('from', $request->from);
         }
 
         // 数据分页
@@ -76,8 +76,8 @@ class Email extends Model
             'date_received',
             'created_at',
             'updated_at',
-            'rfq',
-            'rfq_type',
+            'type',
+            'from',
             'dispatcher_id',
         ]);
     }
