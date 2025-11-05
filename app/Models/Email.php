@@ -35,6 +35,14 @@ class Email extends Model
             $query->where('from_system', $request->from_system);
         }
 
+        // 根据是否有转发记录
+        if ($request->filled('forwarded')) {
+            if ($request->forwarded)
+                $query->has('forwards');
+            else
+                $query->doesntHave('forwards');
+        }
+
         // 数据分页
         return $query->paginate($request->pageSize ?? 10, ['*'], 'current');
     }
