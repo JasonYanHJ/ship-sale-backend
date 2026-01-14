@@ -33,6 +33,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/show/{saler}', [SalerController::class, 'show']);
         Route::post('/update/{saler}', [SalerController::class, 'update']);
         Route::post('/destroy/{saler}', [SalerController::class, 'destroy']);
+        Route::post('/update-tag-auto-forward/{saler}', [SalerController::class, 'updateTagAutoForward']);
     });
 
     Route::prefix('/tags')->middleware('role:admin,dispatcher')->group(function () {
@@ -63,4 +64,8 @@ Route::prefix('/email-attachments')->group(function () {
     Route::get('/cids/{cid}', [AttachmentController::class, 'showByCid']);
     Route::post('/sync-tags/{attachment}', [AttachmentController::class, 'syncTags']);
     Route::get('/{attachment}', [AttachmentController::class, 'show']);
+});
+
+Route::prefix('/internal')->group(function () {
+    Route::post('/salers', [SalerController::class, 'index']);
 });

@@ -101,4 +101,20 @@ class SalerController extends Controller
             'message' => '删除成功',
         ]);
     }
+
+    public function updateTagAutoForward(Request $request, Saler $saler)
+    {
+        $validated = $request->validate([
+            'tag_id' => 'integer|exists:tags,id',
+            'auto_forward' => 'boolean',
+        ]);
+
+        $saler->tags()->updateExistingPivot($validated['tag_id'], [
+            'auto_forward' => $validated['auto_forward'],
+        ]);
+
+        return response()->json([
+            'message' => '更新成功',
+        ]);
+    }
 }
